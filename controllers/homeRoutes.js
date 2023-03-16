@@ -38,24 +38,24 @@ router.get('/post/:id', async (req, res) => {
     });
 
     const post = postData.get({ plain: true });
-    console.log(post)
-    if (post.user_id === req.session.user_id) {
-      res.render('editpost', {
-        ...post,
-        logged_in: true
-      });
-    };
-
-    if (!req.session.logged_in) {
-      res.render('post', {
+    
+    if (req.session.logged_in) {
+      if (post.user_id === req.session.user_id) {
+        return res.render('editpost', {
+          ...post,
+          logged_in: true
+        });
+      } else {
+        return res.render('post', {
+          ...post,
+          logged_in: true
+        });
+      };
+    } else {
+      return res.render('post', {
         ...post,
         logged_in: false
-      });
-    } else {
-      res.render('post', {
-        ...post,
-        logged_in: true
-      });
+     });
     };
   } catch (err) {
     res.status(500).json(err);

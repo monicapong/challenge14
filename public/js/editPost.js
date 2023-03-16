@@ -1,10 +1,9 @@
 const updatePost = async (event) => {
   event.preventDefault();
-  console.log('this is working')
 
   const title = document.querySelector('#post-title').value.trim();
   const content = document.querySelector('#post-content').value.trim();
-  const post_id = document.querySelector('#edit-post-form').getAttribute('value');
+  const post_id = document.querySelector('#postid').getAttribute('data-id');
 
   if (title && content && post_id) {
     const response = await fetch(`/api/posts/`, {
@@ -25,26 +24,25 @@ const updatePost = async (event) => {
 
 document
   .querySelector('#updateBtn')
-  .addEventListener('submit', updatePost);
+  .addEventListener('click', updatePost);
 
 
-// const deletePost = async (event) => {
-//   if (event.target.hasAttribute('data-id')) {
-//     const id = event.target.getAttribute('data-id');
-//     console.log(id);
+const deletePost = async (event) => {
+  if (event.target.hasAttribute('data-id')) {
+    const id = event.target.getAttribute('data-id');
 
-//     const response = await fetch(`/api/posts/${id}`, {
-//       method: 'DELETE',
-//     });
+    const response = await fetch(`/api/posts/${id}`, {
+      method: 'DELETE',
+    });
 
-//     if (response.ok) {
-//       document.location.replace('/dashboard');
-//     } else {
-//       alert('Failed to delete post');
-//     }
-//   }
-// };
+    if (response.ok) {
+      document.location.replace('/dashboard');
+    } else {
+      alert('Failed to delete post');
+    }
+  }
+};
 
-// document
-//   .querySelector('#deleteBtn')
-//   .addEventListener('click', deletePost);
+document
+  .querySelector('#deleteBtn')
+  .addEventListener('click', deletePost);
